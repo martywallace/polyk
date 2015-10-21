@@ -1,6 +1,6 @@
 # PolyK.
 
-This library was written by [Ivan Kuckir](http://www.ivank.net). This repository serves to provide Bower and NPM support.
+This library was written by [Ivan Kuckir](http://www.ivank.net). This repository serves to provide Bower support.
 
 ---
 
