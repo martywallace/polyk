@@ -17,5 +17,6 @@
 		"vertices",
 		"vertex"
 	],
-	"license": "MIT"
+	"license": "MIT",
+	"ignore": ""
 }
