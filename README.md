@@ -1,6 +1,6 @@
-# PolyK.
+# PolyK 0.22.0.
 
-This library was written by [Ivan Kuckir](http://www.ivank.net). This repository serves to provide Bower support.
+This library was written by [Ivan Kuckir](http://www.ivank.net). This repository serves to provide [Bower support](http://bower.io/search/?q=polyk).
 
 ---
 
@@ -18,5 +18,10 @@ Do you like the project? [Make a donation](https://www.paypal.com/au/cgi-bin/web
 
 * [Homepage](http://polyk.ivank.net/).
 * [Demos](http://polyk.ivank.net/?p=demos).
+	* [Point Intersection](http://polyk.ivank.net/?p=demos&d=intersect).
+	* [Triangulation](http://polyk.ivank.net/?p=demos&d=triangulate).
+	* [Slicing](http://polyk.ivank.net/?p=demos&d=slice).
+	* [Ray Casting](http://polyk.ivank.net/?p=demos&d=raycast).
+	* [Closest Edge](http://polyk.ivank.net/?p=demos&d=closestedge).
 * [Documentation](http://polyk.ivank.net/?p=documentation).
 * [Discussion](http://polyk.ivank.net/?p=discussion).
