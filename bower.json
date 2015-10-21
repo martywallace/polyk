@@ -1,0 +1,21 @@
+{
+	"name": "PolyK",
+	"version": "0.22",
+	"homepage": "http://polyk.ivank.net/",
+	"authors": [
+		"Ivan Kuckir <ivan.kuckir@gmail.com>"
+	],
+	"description": "A JavaScript tool for working with polygons.",
+	"main": "/src/polyk.js",
+	"moduleType": [],
+	"keywords": [
+		"polyk",
+		"polygons",
+		"triangulation",
+		"earcut",
+		"intersections",
+		"vertices",
+		"vertex"
+	],
+	"license": "MIT"
+}
