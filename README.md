@@ -1,4 +1,4 @@
-# PolyK 0.22.0.
+# PolyK.
 
 This library was written by [Ivan Kuckir](http://www.ivank.net). This repository serves to provide [Bower support](http://bower.io/search/?q=polyk).
 
