@@ -1,4 +1,13 @@
 {
+	"name": "polyk",
+	"description": "JavaScript tool for working with polygons. It uses several basic principles to be super simple and super universal.",
+	"version": "0.22.1",
+	"author": {
+	  "name": "Ivan Kuckir"
+	},
+	"license": "MIT",
+	"homepage": "http://polyk.ivank.net/",
+	"main": "src/polyk.js",
 	"devDependencies": {
 		"gulp": "^3.9.0",
 		"gulp-minify": "0.0.5"
