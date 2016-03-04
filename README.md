@@ -14,9 +14,17 @@ PolyK was used in the game [Tiny Monsters](http://tinymonsters.ivank.net/). Do y
 
 ## Installation.
 
-You can either download the file from the [downloads page](http://polyk.ivank.net/?p=download), or install with Bower:
+It depends on how you are using PolyK. You can download and handle manually, use Bower or NPM.
+
+You can download the file from the [downloads page](http://polyk.ivank.net/?p=download).
+
+For use with as Bower package:
 
     $ bower install polyk
+
+To install as NPM package with either node, browserify, or webpack:
+
+    $ npm install -S polyk
 
 ## Resources.
 
