@@ -13,10 +13,14 @@
 	],
 	"license": "MIT",
 	"homepage": "http://polyk.ivank.net/",
-	"main": "src/polyk.js",
+	"main": "index.js",
+	"browser": "dist/polyk.js",
+	"scripts": {
+		"build": "browserify index.js -s PolyK > dist/polyk.js && uglifyjs dist/polyk.js -c -m > dist/polyk-min.js"
+	},
 	"devDependencies": {
-		"gulp": "^3.9.0",
-		"gulp-minify": "0.0.5"
+		"browserify": "^14.1.0",
+		"uglifyjs": "^2.4.10"
 	},
 	"contributors": [
 		"Marty Wallace (http://martywallace.com/)",
