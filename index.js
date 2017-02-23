@@ -1,5 +1,4 @@
-
-/*
+/**
 	PolyK library
 	url: http://polyk.ivank.net
 	Released under MIT licence.
@@ -30,16 +29,7 @@
 	19. 5. 2014 - Problem with slicing fixed.
 */
 
-(function (root, factory) {
-  if(typeof define === "function" && define.amd) {
-    define(["polyk"], factory);
-  } else if(typeof module === "object" && module.exports) {
-    module.exports = factory(require("polyk"));
-  } else {
-    root.myModule = factory(root.postal);
-  }
-}(this, function(postal) {
-
+module.exports = PolyK
 var PolyK = {};
 
 /*
@@ -518,6 +508,3 @@ PolyK._P.dist = function(a,b)
 
 PolyK._tp = [];
 for(var i=0; i<10; i++) PolyK._tp.push(new PolyK._P(0,0));
-
-  return PolyK;
-}));

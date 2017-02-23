@@ -6,7 +6,7 @@
 		"Ivan Kuckir <ivan.kuckir@gmail.com>"
 	],
 	"description": "A JavaScript tool for working with polygons.",
-	"main": "/src/polyk.js",
+	"main": "/dist/polyk.js",
 	"moduleType": [],
 	"keywords": [
 		"polyk",
