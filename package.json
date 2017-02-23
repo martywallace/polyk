@@ -2,6 +2,10 @@
 	"name": "polyk",
 	"description": "JavaScript tool for working with polygons. It uses several basic principles to be super simple and super universal.",
 	"version": "0.22.2",
+	"files": [
+		"index.js",
+		"dist"
+	],
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/MartyWallace/PolyK.git"
