@@ -29,9 +29,8 @@
 	19. 5. 2014 - Problem with slicing fixed.
 */
 
-module.exports = PolyK
 var PolyK = {};
-
+module.exports = PolyK
 /*
 	Is Polygon self-intersecting?
 	

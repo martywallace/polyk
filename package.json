@@ -1,29 +1,49 @@
 {
-	"name": "polyk",
-	"description": "JavaScript tool for working with polygons. It uses several basic principles to be super simple and super universal.",
-	"version": "0.22.2",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/MartyWallace/PolyK.git"
-	},
-	"author": "Ivan Kuckir <ivan@kuckir.com> (http://www.ivank.net/en/flash)",
-	"keywords": [
-		"geometry",
-		"polygon"
-	],
-	"license": "MIT",
-	"homepage": "http://polyk.ivank.net/",
-	"main": "index.js",
-	"browser": "dist/polyk.js",
-	"scripts": {
-		"build": "browserify index.js -s PolyK > dist/polyk.js && uglifyjs dist/polyk.js -c -m > dist/polyk-min.js"
-	},
-	"devDependencies": {
-		"browserify": "^14.1.0",
-		"uglifyjs": "^2.4.10"
-	},
-	"contributors": [
-		"Marty Wallace (http://martywallace.com/)",
-		"Florian Ebeling <florian.ebeling@gmail.com> (http://florianebeling.com/)"
-	]
+  "name": "polyk",
+  "description": "JavaScript tool for working with polygons. It uses several basic principles to be super simple and super universal.",
+  "version": "0.22.2",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MartyWallace/PolyK.git"
+  },
+  "author": "Ivan Kuckir <ivan@kuckir.com> (http://www.ivank.net/en/flash)",
+  "keywords": [
+    "geometry",
+    "polygon"
+  ],
+  "license": "MIT",
+  "homepage": "http://polyk.ivank.net/",
+  "main": "index.js",
+  "browser": "dist/polyk.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "test": "jest --coverage",
+    "lint": "standard",
+    "build": "browserify index.js -s PolyK > dist/polyk.js && uglifyjs dist/polyk.js -c -m > dist/polyk-min.js"
+  },
+  "devDependencies": {
+    "@turf/helpers": "^3.10.3",
+    "browserify": "^14.1.0",
+    "jest-cli": "^19.0.2",
+    "load-json-file": "^2.0.0",
+    "lodash.chunk": "^4.2.0",
+    "standard": "^8.6.0",
+    "uglifyjs": "^2.4.10",
+    "write-json-file": "^2.0.0"
+  },
+  "contributors": [
+    "Marty Wallace (http://martywallace.com/)",
+    "Florian Ebeling <florian.ebeling@gmail.com> (http://florianebeling.com/)"
+  ],
+  "jest": {
+    "verbose": true
+  },
+  "testEnvironment": "node",
+  "standard": {
+    "env": "jest",
+    "ignore": [
+      "dist",
+      "lib"
+    ]
+  }
 }
