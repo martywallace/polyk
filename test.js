@@ -35,12 +35,13 @@ test('PolyK.Slice', t => {
   const sliced = PolyK.Slice(polyCoordsFlattened, start[0], start[1], stop[0], stop[1])
 
   // Convert results to GeoJSON
-  const results = featureCollection([line])
+  const results = featureCollection([])
   sliced.forEach(function (item) {
     var coords = chunk(item, 2)
     coords.push(coords[0])
     results.features.push(turf.polygon([coords]))
   })
+  results.features.push(line)
 
   // Save Results
   if (process.env.REGEN) {
