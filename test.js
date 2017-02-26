@@ -19,6 +19,32 @@ fs.readdirSync(directories.in).forEach(filename => {
   fixtures[name] = load.sync(directories.in + filename)
 })
 
+/**
+ * Convert GeoJSON Polygon to Polygon
+ *
+ * @param {Feature<Polygon>} polygon
+ * @returns {number[]} Array Polygon
+ */
+function convertToArray (polygon) {
+  return [].concat.apply([], polygon.geometry.coordinates[0])
+}
+
+/**
+ * Convert Array Polygon to FeatureCollection GeoJSON Polygon
+ *
+ * @param {number[]} array
+ * @returns {FeatureCollection<Polygon>}
+ */
+function convertToGeoJSON (array) {
+  const geojson = featureCollection([])
+  array.forEach((item) => {
+    var coords = chunk(item, 2)
+    coords.push(coords[0])
+    geojson.features.push(turf.polygon([coords]))
+  })
+  return geojson
+}
+
 test('PolyK.Slice', t => {
   // Define fixtures
   const polygon = fixtures['polygon']
@@ -28,19 +54,9 @@ test('PolyK.Slice', t => {
   line.properties['stroke'] = '#f0f'
   line.properties['stroke-width'] = 6
 
-  // Prepare Polygon
-  const polyCoordsFlattened = [].concat.apply([], polygon.geometry.coordinates[0])
-
   // Slice
-  const sliced = PolyK.Slice(polyCoordsFlattened, start[0], start[1], stop[0], stop[1])
-
-  // Convert results to GeoJSON
-  const results = featureCollection([])
-  sliced.forEach(function (item) {
-    var coords = chunk(item, 2)
-    coords.push(coords[0])
-    results.features.push(turf.polygon([coords]))
-  })
+  const sliced = PolyK.Slice(convertToArray(polygon), start[0], start[1], stop[0], stop[1])
+  const results = convertToGeoJSON(sliced)
   results.features.push(line)
 
   // Save Results
@@ -49,5 +65,19 @@ test('PolyK.Slice', t => {
   }
 
   t.deepEquals(results, load.sync(directories.out + 'slice.geojson'))
+  t.end()
+})
+
+test('PolyK.Raycast', t => {
+  const polygon = fixtures['polygon']
+  const start = fixtures['start'].geometry.coordinates
+  const direction = fixtures['direction'].geometry.coordinates
+
+  const raycast = PolyK.Raycast(convertToArray(polygon), start[0], start[1], direction[0], direction[1])
+
+  if (process.env.REGEN) {
+    write.sync(directories.out + 'raycast.json', raycast)
+  }
+  t.deepEquals(raycast, load.sync(directories.out + 'raycast.json'))
   t.end()
 })
