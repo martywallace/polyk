@@ -327,6 +327,13 @@ module.exports.Slice = Slice
 
 /**
  * Raycast
+ *
+ * @param {number[]} p Polygon
+ * @param {number} x Origin [x]
+ * @param {number} y Origin [y]
+ * @param {number} dx Direction [x]
+ * @param {number} dy Direction [y]
+ * @returns {Raycast}
  */
 function Raycast (p, x, y, dx, dy, isc) {
   var l = p.length - 2
@@ -341,7 +348,7 @@ function Raycast (p, x, y, dx, dy, isc) {
   a2.x = x + dx
   a2.y = y + dy
 
-  if (isc == null) {
+  if (isc === null || isc === undefined) {
     isc = {dist: 0, edge: 0, norm: {x: 0, y: 0}, refl: {x: 0, y: 0}}
   }
   isc.dist = Infinity
