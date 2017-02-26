@@ -56,28 +56,47 @@ test('PolyK.Slice', t => {
 
   // Slice
   const sliced = PolyK.Slice(convertToArray(polygon), start[0], start[1], stop[0], stop[1])
-  const results = convertToGeoJSON(sliced)
-  results.features.push(line)
 
   // Save Results
+  const results = turf.featureCollection([
+    convertToGeoJSON(sliced),
+    line
+  ])
   if (process.env.REGEN) {
-    write.sync(directories.out + 'slice.geojson', results)
+    write.sync(directories.out + 'slice.json', sliced)
+    write.sync(directories.out + 'slice-results.geojson', results)
   }
 
-  t.deepEquals(results, load.sync(directories.out + 'slice.geojson'))
+  // Tests
+  t.deepEquals(sliced, load.sync(directories.out + 'slice.json'))
+  t.deepEquals(results, load.sync(directories.out + 'slice-results.geojson'))
   t.end()
 })
 
 test('PolyK.Raycast', t => {
+  // Define fixtures
   const polygon = fixtures['polygon']
   const start = fixtures['start'].geometry.coordinates
   const direction = fixtures['direction'].geometry.coordinates
 
+  // Raycast
   const raycast = PolyK.Raycast(convertToArray(polygon), start[0], start[1], direction[0], direction[1])
 
+  // Save Results
+  const results = turf.featureCollection([
+    polygon,
+    fixtures['start'],
+    fixtures['direction'],
+    turf.point([raycast.norm.x, raycast.norm.y], {norm: true}),
+    turf.point([raycast.refl.x, raycast.refl.y], {refl: true})
+  ])
   if (process.env.REGEN) {
     write.sync(directories.out + 'raycast.json', raycast)
+    write.sync(directories.out + 'raycast-results.geojson', results)
   }
+
+  // Tests
   t.deepEquals(raycast, load.sync(directories.out + 'raycast.json'))
+  t.deepEquals(results, load.sync(directories.out + 'raycast-results.geojson'))
   t.end()
 })
