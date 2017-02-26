@@ -17,7 +17,7 @@
   "browser": "dist/polyk.js",
   "types": "index.d.ts",
   "scripts": {
-    "test": "node test.js",
+    "test": "tape test.js",
     "lint": "standard",
     "build": "browserify index.js -s PolyK > dist/polyk.js && uglifyjs dist/polyk.js -c -m > dist/polyk-min.js"
   },
@@ -35,15 +35,10 @@
     "Marty Wallace (http://martywallace.com/)",
     "Florian Ebeling <florian.ebeling@gmail.com> (http://florianebeling.com/)"
   ],
-  "jest": {
-    "verbose": true
-  },
   "testEnvironment": "node",
   "standard": {
-    "env": "jest",
     "ignore": [
-      "dist",
-      "lib"
+      "dist"
     ]
   }
 }
