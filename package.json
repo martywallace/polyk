@@ -1,7 +1,24 @@
 {
   "name": "polyk",
   "description": "JavaScript tool for working with polygons. It uses several basic principles to be super simple and super universal.",
-  "version": "0.22.2",
+  "version": "0.23.0",
+  "main": "dist/polyk.js",
+  "browser": "dist/polyk.browser.js",
+  "module": "dist/polyk.es.js",
+  "jsnext:main": "dist/polyk.es.js",
+  "types": "index.d.ts",
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "dist"
+  ],
+  "scripts": {
+    "prepublish": "npm run test && npm run uglify",
+    "test": "npm run lint && npm run build && tape test.js",
+    "lint": "standard",
+    "build": "rollup -c rollup.config.js",
+    "uglify": "uglifyjs dist/polyk.browser.js -c -m -o dist/polyk.browser.min.js"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/MartyWallace/PolyK.git"
@@ -13,37 +30,25 @@
   ],
   "license": "MIT",
   "homepage": "http://polyk.ivank.net/",
-  "main": "index.js",
-  "browser": "dist/polyk.js",
-  "types": "index.d.ts",
-  "scripts": {
-    "test": "jest --coverage",
-    "lint": "standard",
-    "build": "browserify index.js -s PolyK > dist/polyk.js && uglifyjs dist/polyk.js -c -m > dist/polyk-min.js"
-  },
   "devDependencies": {
     "@turf/helpers": "^3.10.3",
-    "browserify": "^14.1.0",
-    "jest-cli": "^19.0.2",
     "load-json-file": "^2.0.0",
     "lodash.chunk": "^4.2.0",
+    "rollup": "^0.41.4",
     "standard": "^8.6.0",
+    "tape": "^4.6.3",
     "uglifyjs": "^2.4.10",
     "write-json-file": "^2.0.0"
   },
   "contributors": [
     "Marty Wallace (http://martywallace.com/)",
-    "Florian Ebeling <florian.ebeling@gmail.com> (http://florianebeling.com/)"
+    "Florian Ebeling <florian.ebeling@gmail.com> (http://florianebeling.com/)",
+    "Denis Carriere <carriere.denis@gmail.com"
   ],
-  "jest": {
-    "verbose": true
-  },
   "testEnvironment": "node",
   "standard": {
-    "env": "jest",
     "ignore": [
-      "dist",
-      "lib"
+      "dist"
     ]
   }
 }
