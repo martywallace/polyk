@@ -5,8 +5,6 @@ export default {
   moduleName: 'PolyK',
   sourceMap: true,
   targets: [
-    { dest: pkg['main'], format: 'cjs' },
-    { dest: pkg['browser'], format: 'umd' },
-    { dest: pkg['module'], format: 'es' }
+    { dest: pkg['browser'], format: 'umd' }
   ]
 }
