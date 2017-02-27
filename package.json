@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "prepublish": "npm run build",
-    "test": "npm run lint && npm run build && tape test.js",
+    "test": "npm run lint && npm run build && jest --coverage",
     "lint": "standard",
     "docs": "documentation readme index.js --section=API",
     "build": "rollup -c rollup.config.js && npm run minify",
@@ -31,9 +31,9 @@
   "homepage": "http://polyk.ivank.net/",
   "devDependencies": {
     "documentation": "^4.0.0-beta.18",
+    "jest-cli": "^19.0.2",
     "rollup": "^0.41.4",
     "standard": "^8.6.0",
-    "tape": "^4.6.3",
     "uglifyjs": "^2.4.10"
   },
   "contributors": [
@@ -43,8 +43,12 @@
   ],
   "testEnvironment": "node",
   "standard": {
+    "env": "jest",
     "ignore": [
       "dist"
     ]
+  },
+  "jest": {
+    "verbose": true
   }
 }

@@ -17,7 +17,7 @@ function IsSimple (polygon) {
   for (var i = 0; i < n; i++) {
     a1.x = p[2 * i]
     a1.y = p[2 * i + 1]
-    if (i == n - 1) {
+    if (i === n - 1) {
       a2.x = p[0]
       a2.y = p[1]
     } else {
@@ -27,12 +27,12 @@ function IsSimple (polygon) {
 
     for (var j = 0; j < n; j++) {
       if (Math.abs(i - j) < 2) continue
-      if (j == n - 1 && i == 0) continue
-      if (i == n - 1 && j == 0) continue
+      if (j === n - 1 && i === 0) continue
+      if (i === n - 1 && j === 0) continue
 
       b1.x = p[2 * j]
       b1.y = p[2 * j + 1]
-      if (j == n - 1) {
+      if (j === n - 1) {
         b2.x = p[0]
         b2.y = p[1]
       } else {
@@ -126,7 +126,7 @@ function Triangulate (polygon) {
   if (n < 3) return []
   var tgs = []
   var avl = []
-  for (var i = 0; i < n; i++) { avl.push(i) }
+  for (var count = 0; count < n; count++) { avl.push(count) }
 
   var i = 0
   var al = n
@@ -147,7 +147,7 @@ function Triangulate (polygon) {
       earFound = true
       for (var j = 0; j < al; j++) {
         var vi = avl[j]
-        if (vi == i0 || vi == i1 || vi == i2) continue
+        if (vi === i0 || vi === i1 || vi === i2) continue
         if (PointInTriangle(p[2 * vi], p[2 * vi + 1], ax, ay, bx, by, cx, cy)) {
           earFound = false
           break
@@ -192,8 +192,8 @@ function Slice (polygon, startX, startY, endX, endY) {
   var b = Point(bx, by)
   var iscs = []  // intersections
   var ps = []  // points
-  for (var i = 0; i < p.length; i += 2) {
-    ps.push(Point(p[i], p[i + 1]))
+  for (var count = 0; count < p.length; count += 2) {
+    ps.push(Point(p[count], p[count + 1]))
   }
   for (var i = 0; i < ps.length; i++) {
     var isc = Point(0, 0)
@@ -240,7 +240,7 @@ function Slice (polygon, startX, startY, endX, endY) {
       ps = getPoints(ps, index1, index0)
       i0.flag = i1.flag = false
       iscs.splice(0, 2)
-      if (iscs.length == 0) pgs.push(ps)
+      if (iscs.length === 0) pgs.push(ps)
     } else {
       dir++
       iscs.reverse()
@@ -248,8 +248,8 @@ function Slice (polygon, startX, startY, endX, endY) {
     if (dir > 1) break
   }
   var result = []
-  for (var i = 0; i < pgs.length; i++) {
-    var pg = pgs[i]
+  for (var ii = 0; ii < pgs.length; ii++) {
+    var pg = pgs[ii]
     var npg = []
     for (var j = 0; j < pg.length; j++) { npg.push(pg[j].x, pg[j].y) }
     result.push(npg)
@@ -279,11 +279,11 @@ function ContainsPoint (polygon, pointX, pointY) {
   var by = p[2 * n - 1] - py
 
   // var lup = by > ay;
-  for (var i = 0; i < n; i++) {
+  for (var ii = 0; ii < n; ii++) {
     ax = bx
     ay = by
-    bx = p[2 * i] - px
-    by = p[2 * i + 1] - py
+    bx = p[2 * ii] - px
+    by = p[2 * ii + 1] - py
     if (ay === by) continue
     var lup = by > ay
   }
@@ -467,7 +467,7 @@ function pointLineDist (p, a, b, edge, isc) {
   var xx
   var yy
 
-  if (param < 0 || (x1 == x2 && y1 == y2)) {
+  if (param < 0 || (x1 === x2 && y1 === y2)) {
     xx = x1
     yy = y1
   } else if (param > 1) {
@@ -609,7 +609,7 @@ function RayLineIntersection (a1, a2, b1, b2, c) {
   var dby = (b1.y - b2.y)
 
   var Den = dax * dby - day * dbx
-  if (Den == 0) return null  // parallel
+  if (Den === 0) return null  // parallel
 
   var A = (a1.x * a2.y - a1.y * a2.x)
   var B = (b1.x * b2.y - b1.y * b2.x)

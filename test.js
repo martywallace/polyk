@@ -1,5 +1,4 @@
 const fs = require('fs')
-const test = require('tape')
 const path = require('path')
 const PolyK = require('.')
 
@@ -7,41 +6,35 @@ const directories = {
   in: path.join(__dirname, 'test', 'in') + path.sep,
   out: path.join(__dirname, 'test', 'out') + path.sep
 }
+const polygon = require(directories.in + 'polygon.json')
 
-test('PolyK.Slice', t => {
-  // Define fixtures
-  const polygon = require(directories.in + 'polygon.json')
+test('Slice', () => {
   const start = [134.208984375, -4.390228926463384]
   const end = [129.0234375, -43.51668853502907]
-
-  // Slice
   const sliced = PolyK.Slice(polygon, start[0], start[1], end[0], end[1])
-
-  // Save Results
-  if (process.env.REGEN) {
-    fs.writeFileSync(directories.out + 'sliced.json', JSON.stringify(sliced, null, 2))
-  }
-
-  // Tests
-  t.deepEquals(sliced, require(directories.out + 'sliced.json'))
-  t.end()
+  if (process.env.REGEN) { fs.writeFileSync(directories.out + 'sliced.json', JSON.stringify(sliced, null, 2)) }
+  expect(sliced).toEqual(require(directories.out + 'sliced.json'))
 })
 
-test('PolyK.Raycast', t => {
-  // Define fixtures
+test('Raycast', () => {
   const polygon = require(directories.in + 'polygon.json')
   const start = [135, -25]
   const direction = [110, -10]
-
-  // Raycast
   const raycast = PolyK.Raycast(polygon, start[0], start[1], direction[0], direction[1])
+  if (process.env.REGEN) { fs.writeFileSync(directories.out + 'raycast.json', JSON.stringify(raycast, null, 2)) }
+  expect(raycast).toEqual(require(directories.out + 'raycast.json'))
+})
 
-  // Save Results
-  if (process.env.REGEN) {
-    fs.writeFileSync(directories.out + 'raycast.json', JSON.stringify(raycast, null, 2))
-  }
+test('Triangulate', () => {
+  const triangulate = PolyK.Triangulate(polygon)
+  if (process.env.REGEN) { fs.writeFileSync(directories.out + 'triangulate.json', JSON.stringify(triangulate, null, 2)) }
+  expect(triangulate).toEqual(require(directories.out + 'triangulate.json'))
+})
 
-  // Tests
-  t.deepEquals(raycast, require(directories.out + 'raycast.json'))
-  t.end()
+test('ContainsPoint', () => {
+  const polygon = require(directories.in + 'polygon.json')
+  const inside = [135, -25]
+  const outside = [102, -16]
+  expect(PolyK.ContainsPoint(polygon, inside[0], inside[1])).toBe(true)
+  expect(PolyK.ContainsPoint(polygon, outside[0], outside[1])).toBe(false)
 })
