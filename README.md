@@ -1,6 +1,6 @@
-# PolyK.
+# PolyK
 
-This library was written by [Ivan Kuckir](http://www.ivank.net). This repository serves to provide [Bower support](http://bower.io/search/?q=polyk).
+This library was written by [Ivan Kuckir](http://www.ivank.net).
 
 ## What is PolyK?
 
@@ -12,31 +12,37 @@ PolyK is JavaScript tool for working with polygons. It uses several basic princi
 
 PolyK was used in the game [Tiny Monsters](http://tinymonsters.ivank.net/). Do you like the project? [Make a donation](https://www.paypal.com/au/cgi-bin/webscr?cmd=_flow&SESSION=lVWmm5XwRF3D6AwScgjgqh6znJQXHcjKbhJQlW5pIizCZK6Pc8EtJVNwR_a&dispatch=50a222a57771920b6a3d7b606239e4d529b525e0b7e69bf0224adecfb0124e9b61f737ba21b081984719ecfa9a8ffe80733a1a700ced90ae)!
 
-## Installation.
+## Install
 
-It depends on how you are using PolyK. You can download and handle manually, use Bower or NPM.
+**npm**
 
-You can download the file from the [downloads page](http://polyk.ivank.net/?p=download).
+```bash
+$ npm install --save deep-slice
+```
 
-For use with as Bower package:
+**bower**
 
-    $ bower install polyk
+```bash
+$ bower install polyk
+```
 
-To install as NPM package with either node, browserify, or webpack:
+**web browser [ES5](http://kangax.github.io/compat-table/es5/)**
 
-    $ npm install -S polyk
+```html
+<script src="https://unpkg.com/polyk/dist/polyk.min.js"></script>
+```
 
-## Resources.
+## Resources
 
--   [Homepage](http://polyk.ivank.net/).
--   [Demos](http://polyk.ivank.net/?p=demos).
-    -   [Point Intersection](http://polyk.ivank.net/?p=demos&d=intersect).
-    -   [Triangulation](http://polyk.ivank.net/?p=demos&d=triangulate).
-    -   [Slicing](http://polyk.ivank.net/?p=demos&d=slice).
-    -   [Ray Casting](http://polyk.ivank.net/?p=demos&d=raycast).
-    -   [Closest Edge](http://polyk.ivank.net/?p=demos&d=closestedge).
--   [Documentation](http://polyk.ivank.net/?p=documentation).
--   [Discussion](http://polyk.ivank.net/?p=discussion).
+-   [Homepage](http://polyk.ivank.net/)
+-   [Demos](http://polyk.ivank.net/?p=demos)
+    -   [Point Intersection](http://polyk.ivank.net/?p=demos&d=intersect)
+    -   [Triangulation](http://polyk.ivank.net/?p=demos&d=triangulate)
+    -   [Slicing](http://polyk.ivank.net/?p=demos&d=slice)
+    -   [Ray Casting](http://polyk.ivank.net/?p=demos&d=raycast)
+    -   [Closest Edge](http://polyk.ivank.net/?p=demos&d=closestedge)
+-   [Documentation](http://polyk.ivank.net/?p=documentation)
+-   [Discussion](http://polyk.ivank.net/?p=discussion)
 
 ## API
 
