@@ -5,43 +5,13 @@
 }(this, (function () { 'use strict';
 
 /**
-  PolyK library
-  url: http://polyk.ivank.net
-  Released under MIT licence.
-
-  Copyright (c) 2012 - 2014 Ivan Kuckir
-
-  Permission is hereby granted, free of charge, to any person
-  obtaining a copy of this software and associated documentation
-  files (the "Software"), to deal in the Software without
-  restriction, including without limitation the rights to use,
-  copy, modify, merge, publish, distribute, sublicense, and/or sell
-  copies of the Software, and to permit persons to whom the
-  Software is furnished to do so, subject to the following
-  conditions:
-
-  The above copyright notice and this permission notice shall be
-  included in all copies or substantial portions of the Software.
-
-  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-  OTHER DEALINGS IN THE SOFTWARE.
-
-  19. 5. 2014 - Problem with slicing fixed.
-*/
-
-/**
- * Is Simple
+ * Checks, if polygon is simple. Polygon is simple, when its edges don't cross each other.
  *
- * @param {number[]} p polygon
- * @returns {boolean}
+ * @param {number[]} polygon [x1, y1, x2, y2...]
+ * @returns {boolean} true if Polygon is simple
  */
-function IsSimple (p) {
+function IsSimple (polygon) {
+  var p = polygon;
   var n = p.length >> 1;
   if (n < 4) return true
   var a1 = Point();
@@ -84,12 +54,13 @@ function IsSimple (p) {
 module.exports.IsSimple = IsSimple;
 
 /**
- * IsConvex
+ * Checks, if polygon is convex. Polygon is convex, when each inner angle is <= 180°.
  *
- * @param {number[]} p polygon
+ * @param {number[]} polygon [x1, y1, x2, y2...]
  * @returns {boolean}
  */
-function IsConvex (p) {
+function IsConvex (polygon) {
+  var p = polygon;
   if (p.length < 6) return true
   var l = p.length - 4;
   for (var i = 0; i < l; i += 2) {
@@ -102,12 +73,13 @@ function IsConvex (p) {
 module.exports.IsConvex = IsConvex;
 
 /**
- * GetArea
+ * Returns the area of polygon.
  *
- * @param {number[]} p polygon
+ * @param {number[]} polygon [x1, y1, x2, y2...]
  * @returns {number}
  */
-function GetArea (p) {
+function GetArea (polygon) {
+  var p = polygon;
   if (p.length < 6) return 0
   var l = p.length - 2;
   var sum = 0;
@@ -120,11 +92,15 @@ function GetArea (p) {
 module.exports.GetArea = GetArea;
 
 /**
- * GetAABB
+ * Returns the Axis-aligned Bounding Box of polygon
  *
- * @param {number[]} p Polygon
+ * @param {number[]} polygon [x1, y1, x2, y2...]
+ * @returns {AABB}
+ * @example
+ * //={x:0, y:0, width:0, height:0}
  */
-function GetAABB (p) {
+function GetAABB (polygon) {
+  var p = polygon;
   var minx = Infinity;
   var miny = Infinity;
   var maxx = -minx;
@@ -140,19 +116,18 @@ function GetAABB (p) {
 module.exports.GetAABB = GetAABB;
 
 /**
- * Reverse
+ * Computes the triangulation. Output array is array of triangles (triangle = 3 indices of polygon vertices).
+ *
+ * Works with simple polygons only.
+ *
+ * @param {number[]} polygon [x1, y1, x2, y2...]
+ * @returns {number[]} array of triangles (triangle = 3 indices of polygon vertices)
+ * @example
+ * var ids = PolyK.Triangulate([0, 0, 1, 0, 1, 1, 0, 1]);
+ * //=[0, 1, 2, 0, 2, 3]
  */
-function Reverse (p) {
-  var np = [];
-  for (var j = p.length - 2; j >= 0; j -= 2) { np.push(p[j], p[j + 1]); }
-  return np
-}
-module.exports.Reverse = Reverse;
-
-/**
- * Triangulate
- */
-function Triangulate (p) {
+function Triangulate (polygon) {
+  var p = polygon;
   var n = p.length >> 1;
   if (n < 3) return []
   var tgs = [];
@@ -198,65 +173,23 @@ function Triangulate (p) {
 module.exports.Triangulate = Triangulate;
 
 /**
- * Contains Point
+ * Slices the polygon with line segment A-B, defined by [ax,ay] and [bx,by]. A, B must not lay inside a polygon. Returns an array of polygons.
  *
- * @param {number[]} p
- * @param {number} px
- * @param {number} py
- * @returns {boolean} depth
- */
-function ContainsPoint (p, px, py) {
-  var n = p.length >> 1;
-  var ax;
-  var ay = p[2 * n - 3] - py;
-  var bx = p[2 * n - 2] - px;
-  var by = p[2 * n - 1] - py;
-
-  // var lup = by > ay;
-  for (var i = 0; i < n; i++) {
-    ax = bx;
-    ay = by;
-    bx = p[2 * i] - px;
-    by = p[2 * i + 1] - py;
-    if (ay === by) continue
-    var lup = by > ay;
-  }
-
-  var depth = 0;
-  for (var i = 0; i < n; i++) {
-    ax = bx;
-    ay = by;
-    bx = p[2 * i] - px;
-    by = p[2 * i + 1] - py;
-    if (ay < 0 && by < 0) continue  // both "up" or both "down"
-    if (ay > 0 && by > 0) continue  // both "up" or both "down"
-    if (ax < 0 && bx < 0) continue   // both points on the left
-
-    if (ay === by && Math.min(ax, bx) <= 0) return true
-    if (ay === by) continue
-
-    var lx = ax + (bx - ax) * (-ay) / (by - ay);
-    if (lx === 0) return true      // point on edge
-    if (lx > 0) depth++;
-    if (ay === 0 && lup && by > ay) depth--;  // hit vertex, both up
-    if (ay === 0 && !lup && by < ay) depth--; // hit vertex, both down
-    lup = by > ay;
-  }
-  return (depth & 1) === 1
-}
-module.exports.ContainsPoint = ContainsPoint;
-
-/**
- * Slice
+ * Works with simple polygons only.
  *
- * @param {number[]} Polygon
- * @param {number} ax Start Coordinate [x]
- * @param {number} ay Start Coordinate [y]
- * @param {number} ax End Coordinate [x]
- * @param {number} ax End Coordinate [y]
+ * @param {number[]} polygon [x1, y1, x2, y2...]
+ * @param {number} startX Start Coordinate [x]
+ * @param {number} startY Start Coordinate [y]
+ * @param {number} endX End Coordinate [x]
+ * @param {number} endY End Coordinate [y]
  * @returns {number[][]} Array of Polygon
  */
-function Slice (p, ax, ay, bx, by) {
+function Slice (polygon, startX, startY, endX, endY) {
+  var p = polygon;
+  var ax = startX;
+  var ay = startY;
+  var bx = endX;
+  var by = endY;
   if (ContainsPoint(p, ax, ay) || ContainsPoint(p, bx, by)) {
     return [p.slice(0)]
   }
@@ -332,16 +265,81 @@ function Slice (p, ax, ay, bx, by) {
 module.exports.Slice = Slice;
 
 /**
- * Raycast
+ * Checks, if polygon contains [x, y].
  *
- * @param {number[]} p Polygon
- * @param {number} x Origin [x]
- * @param {number} y Origin [y]
- * @param {number} dx Direction [x]
- * @param {number} dy Direction [y]
- * @returns {Raycast}
+ * Works with simple polygons only.
+ *
+ * @param {number[]} polygon [x1, y1, x2, y2...]
+ * @param {number} pointX Coordinate [x]
+ * @param {number} pointY Coordinate [y]
+ * @returns {boolean} depth
  */
-function Raycast (p, x, y, dx, dy, isc) {
+function ContainsPoint (polygon, pointX, pointY) {
+  var p = polygon;
+  var px = pointX;
+  var py = pointY;
+  var n = p.length >> 1;
+  var ax;
+  var ay = p[2 * n - 3] - py;
+  var bx = p[2 * n - 2] - px;
+  var by = p[2 * n - 1] - py;
+
+  // var lup = by > ay;
+  for (var i = 0; i < n; i++) {
+    ax = bx;
+    ay = by;
+    bx = p[2 * i] - px;
+    by = p[2 * i + 1] - py;
+    if (ay === by) continue
+    var lup = by > ay;
+  }
+
+  var depth = 0;
+  for (var i = 0; i < n; i++) {
+    ax = bx;
+    ay = by;
+    bx = p[2 * i] - px;
+    by = p[2 * i + 1] - py;
+    if (ay < 0 && by < 0) continue  // both "up" or both "down"
+    if (ay > 0 && by > 0) continue  // both "up" or both "down"
+    if (ax < 0 && bx < 0) continue   // both points on the left
+
+    if (ay === by && Math.min(ax, bx) <= 0) return true
+    if (ay === by) continue
+
+    var lx = ax + (bx - ax) * (-ay) / (by - ay);
+    if (lx === 0) return true      // point on edge
+    if (lx > 0) depth++;
+    if (ay === 0 && lup && by > ay) depth--;  // hit vertex, both up
+    if (ay === 0 && !lup && by < ay) depth--; // hit vertex, both down
+    lup = by > ay;
+  }
+  return (depth & 1) === 1
+}
+module.exports.ContainsPoint = ContainsPoint;
+
+/**
+ * Finds the closest point of polygon, which lays on ray defined by [x,y] (origin) and [dx,dy] (direction).
+ *
+ * "dist" is the distance of the polygon point, "edge" is the number of the edge, on which intersection occurs, "norm" is the normal in that place, "refl" is reflected direction.
+ *
+ * Works with simple polygons only.
+ *
+ * @param {number[]} polygon [x1, y1, x2, y2...]
+ * @param {number} originX Origin [x]
+ * @param {number} originY Origin [y]
+ * @param {number} directionX Direction [x]
+ * @param {number} directionY Direction [y]
+ * @returns {Raycast}
+ * @example
+ * //={dist:0, edge:0, norm:{x:0, y:0}, refl:{x:0, y:0}}
+ */
+function Raycast (polygon, originX, originY, directionX, directionY, isc) {
+  var p = polygon;
+  var x = originX;
+  var y = originY;
+  var dx = directionX;
+  var dy = directionY;
   var l = p.length - 2;
   var empty = emptyPoints();
   var a1 = empty[0];
@@ -384,9 +382,19 @@ function Raycast (p, x, y, dx, dy, isc) {
 module.exports.Raycast = Raycast;
 
 /**
- * ClosestEdge
+ * Finds the point on polygon edges, which is closest to [x,y]. Returns an object in this format
+ *
+ * "dist" is the distance of the polygon point, "edge" is the number of the closest edge, "point" is the closest point on that edge, "norm" is the normal from "point" to [x,y].
+ *
+ * @param {number[]} polygon [x1, y1, x2, y2...]
+ * @param {number} x Coordinate [x]
+ * @param {number} y Coordinate [y]
+ * @returns {ClosestEdge}
+ * @example
+ * //={dist:0, edge:0, point:{x:0, y:0}, norm:{x:0, y:0}}
  */
-function ClosestEdge (p, x, y, isc) {
+function ClosestEdge (polygon, x, y, isc) {
+  var p = polygon;
   var l = p.length - 2;
   var empty = emptyPoints();
   var a1 = empty[0];
@@ -420,6 +428,19 @@ function ClosestEdge (p, x, y, isc) {
   return isc
 }
 module.exports.ClosestEdge = ClosestEdge;
+
+/**
+ * Reverse
+ *
+ * @param {number[]} polygon [x1, y1, x2, y2...]
+ */
+function Reverse (polygon) {
+  var p = polygon;
+  var np = [];
+  for (var j = p.length - 2; j >= 0; j -= 2) { np.push(p[j], p[j + 1]); }
+  return np
+}
+module.exports.Reverse = Reverse;
 
 /**
  * Point Line Distance
