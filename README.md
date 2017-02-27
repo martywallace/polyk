@@ -44,41 +44,142 @@ To install as NPM package with either node, browserify, or webpack:
 
 ### IsSimple
 
-Is Simple
+Checks, if polygon is simple. Polygon is simple, when its edges don't cross each other.
 
 **Parameters**
 
--   `p` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)>** polygon
+-   `polygon` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)>** [x1, y1, x2, y2...]
 
-Returns **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** 
+Returns **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** true if Polygon is simple
 
 ### IsConvex
 
-IsConvex
+Checks, if polygon is convex. Polygon is convex, when each inner angle is &lt;= 180°.
 
 **Parameters**
 
--   `p` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)>** polygon
+-   `polygon` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)>** [x1, y1, x2, y2...]
 
 Returns **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** 
 
 ### GetArea
 
-GetArea
+Returns the area of polygon.
 
 **Parameters**
 
--   `p` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)>** polygon
+-   `polygon` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)>** [x1, y1, x2, y2...]
 
 Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
 
 ### GetAABB
 
-GetAABB
+Returns the Axis-aligned Bounding Box of polygon
 
 **Parameters**
 
--   `p` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)>** Polygon
+-   `polygon` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)>** [x1, y1, x2, y2...]
+
+**Examples**
+
+```javascript
+//={x:0, y:0, width:0, height:0}
+```
+
+Returns **AABB** 
+
+### Triangulate
+
+Computes the triangulation. Output array is array of triangles (triangle = 3 indices of polygon vertices).
+
+Works with simple polygons only.
+
+**Parameters**
+
+-   `polygon` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)>** [x1, y1, x2, y2...]
+
+**Examples**
+
+```javascript
+var ids = PolyK.Triangulate([0, 0, 1, 0, 1, 1, 0, 1]);
+//=[0, 1, 2, 0, 2, 3]
+```
+
+Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)>** array of triangles (triangle = 3 indices of polygon vertices)
+
+### Slice
+
+Slices the polygon with line segment A-B, defined by [ax,ay] and [bx,by]. A, B must not lay inside a polygon. Returns an array of polygons.
+
+Works with simple polygons only.
+
+**Parameters**
+
+-   `polygon` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)>** [x1, y1, x2, y2...]
+-   `startX` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Start Coordinate [x]
+-   `startY` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Start Coordinate [y]
+-   `endX` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** End Coordinate [x]
+-   `endY` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** End Coordinate [y]
+
+### ContainsPoint
+
+Checks, if polygon contains [x, y].
+
+Works with simple polygons only.
+
+**Parameters**
+
+-   `polygon` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)>** [x1, y1, x2, y2...]
+-   `pointX` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Coordinate [x]
+-   `pointY` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Coordinate [y]
+
+Returns **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** depth
+
+### Raycast
+
+Finds the closest point of polygon, which lays on ray defined by [x,y](origin) and [dx,dy](direction).
+
+"dist" is the distance of the polygon point, "edge" is the number of the edge, on which intersection occurs, "norm" is the normal in that place, "refl" is reflected direction.
+
+Works with simple polygons only.
+
+**Parameters**
+
+-   `polygon` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)>** [x1, y1, x2, y2...]
+-   `originX` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Origin [x]
+-   `originY` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Origin [y]
+-   `directionX` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Direction [x]
+-   `directionY` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Direction [y]
+-   `isc`  
+
+**Examples**
+
+```javascript
+//={dist:0, edge:0, norm:{x:0, y:0}, refl:{x:0, y:0}}
+```
+
+Returns **[Raycast](#raycast)** 
+
+### ClosestEdge
+
+Finds the point on polygon edges, which is closest to [x,y]. Returns an object in this format
+
+"dist" is the distance of the polygon point, "edge" is the number of the closest edge, "point" is the closest point on that edge, "norm" is the normal from "point" to [x,y].
+
+**Parameters**
+
+-   `polygon` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)>** [x1, y1, x2, y2...]
+-   `x` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Coordinate [x]
+-   `y` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Coordinate [y]
+-   `isc`  
+
+**Examples**
+
+```javascript
+//={dist:0, edge:0, point:{x:0, y:0}, norm:{x:0, y:0}}
+```
+
+Returns **[ClosestEdge](#closestedge)** 
 
 ### Reverse
 
@@ -86,65 +187,4 @@ Reverse
 
 **Parameters**
 
--   `p`  
-
-### Triangulate
-
-Triangulate
-
-**Parameters**
-
--   `p`  
-
-### ContainsPoint
-
-Contains Point
-
-**Parameters**
-
--   `p` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)>** 
--   `px` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
--   `py` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
-
-Returns **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** depth
-
-### Slice
-
-Slice
-
-**Parameters**
-
--   `Polygon` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)>** 
--   `ax` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Start Coordinate [x]
--   `ay` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Start Coordinate [y]
--   `ax` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** End Coordinate [x]
--   `ax` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** End Coordinate [y]
--   `p`  
--   `bx`  
--   `by`  
-
-### Raycast
-
-Raycast
-
-**Parameters**
-
--   `p` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)>** Polygon
--   `x` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Origin [x]
--   `y` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Origin [y]
--   `dx` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Direction [x]
--   `dy` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Direction [y]
--   `isc`  
-
-Returns **[Raycast](#raycast)** 
-
-### ClosestEdge
-
-ClosestEdge
-
-**Parameters**
-
--   `p`  
--   `x`  
--   `y`  
--   `isc`  
+-   `polygon` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)>** [x1, y1, x2, y2...]
