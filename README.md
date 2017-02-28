@@ -17,7 +17,7 @@ PolyK was used in the game [Tiny Monsters](http://tinymonsters.ivank.net/). Do y
 **npm**
 
 ```bash
-$ npm install --save deep-slice
+$ npm install --save polyk
 ```
 
 **bower**
