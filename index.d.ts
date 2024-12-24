@@ -40,4 +40,4 @@ export function GetAABB(polygon: Polygon): AABB
 export function Triangulate(polygon: Polygon): Polygon
 export function ContainsPoint(polygon: Polygon, pointX: number, pointY: number): boolean
 export function Raycast(polygon: Polygon, originX: number, originY: number, directionX: number, directionY: number): RaycastResult
-export function ClosestEdge(polygon: Polygon, x: number, y: number): RaycastResult
+export function ClosestEdge(polygon: Polygon, x: number, y: number): ClosestEdgeResult
